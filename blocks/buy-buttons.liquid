@@ -217,6 +217,38 @@
               </div>
             </volume-pricing>
           {%- endif -%}
+          {%- if can_add_to_cart -%}
+            <div class="cod-button-wrapper" id="cod-button-wrapper-{{ section.id }}">
+              <button
+                type="button"
+                class="button cod-button"
+                id="cod-button-proxy-{{ section.id }}"
+              >
+                <svg class="cod-button__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cod-button__text">Pago Contraentrega</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="button buy-now-button"
+              id="buy-now-{{ section.id }}"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            >
+              <svg class="buy-now-button__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <circle cx="12" cy="20" r="1" fill="currentColor"></circle>
+              </svg>
+              <span class="buy-now-button__text">Pagar Online</span>
+            </button>
+          {%- endif -%}
+
           {% content_for 'block',
             type: 'add-to-cart',
             id: 'add-to-cart',
@@ -225,19 +257,55 @@
           %}
 
           {%- if can_add_to_cart -%}
-            <button
-              type="button"
-              class="button buy-now-button"
-              id="buy-now-{{ section.id }}"
-              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-            >
-              <span class="buy-now-button__text">Pagar Online</span>
-            </button>
             <script>
               (function() {
-                if (!window.__buyNowDelegationAttached) {
-                  window.__buyNowDelegationAttached = true;
+                function moveReleasitButton() {
+                  var wrapper = document.getElementById('cod-button-wrapper-{{ section.id }}');
+                  if (!wrapper) return false;
+                  var proxy = document.getElementById('cod-button-proxy-{{ section.id }}');
+                  var releasitContainer = document.querySelector(
+                    '#shopify-block-releasit_cod_form_button_app_block_6Rtdqg, ' +
+                    '[class*="releasit-cod-form"], ' +
+                    '.releasit-cod-button-container, ' +
+                    '.releasit-cod-button'
+                  );
+                  if (releasitContainer && !wrapper.contains(releasitContainer)) {
+                    wrapper.appendChild(releasitContainer);
+                    if (proxy) proxy.style.display = 'none';
+                    return true;
+                  }
+                  return false;
+                }
+
+                if (!moveReleasitButton()) {
+                  var observer = new MutationObserver(function() {
+                    if (moveReleasitButton()) {
+                      observer.disconnect();
+                    }
+                  });
+                  observer.observe(document.body, { childList: true, subtree: true });
+                  var attempts = 0;
+                  var interval = setInterval(function() {
+                    attempts++;
+                    if (moveReleasitButton() || attempts > 30) {
+                      clearInterval(interval);
+                    }
+                  }, 200);
+                }
+
+                if (!window.__buyButtonsDelegationAttached) {
+                  window.__buyButtonsDelegationAttached = true;
+
                   document.addEventListener('click', async function(e) {
+                    var codProxy = e.target.closest('[id^="cod-button-proxy-"]');
+                    if (codProxy) {
+                      var realBtn = document.querySelector('.releasit-cod-button, [class*="releasit"] button, #releasit-cod-button, [data-releasit-button]');
+                      if (realBtn && realBtn !== codProxy) {
+                        realBtn.click();
+                      }
+                      return;
+                    }
+
                     var btn = e.target.closest('.buy-now-button');
                     if (!btn || btn.disabled) return;
                     var form = btn.closest('form');
@@ -280,14 +348,23 @@
                     var target = (e.target && e.target.closest) ? e.target.closest('.shopify-section, dialog, product-card') : document;
                     if (!target) target = document;
                     var btn = target.querySelector('.buy-now-button');
-                    if (!btn) return;
-                    if (!variant || !variant.available) {
-                      btn.disabled = true;
-                      btn.style.display = 'none';
-                    } else {
-                      btn.disabled = false;
-                      btn.style.display = '';
-                      btn.dataset.variantId = variant.id;
+                    var codBtn = target.querySelector('.cod-button-wrapper');
+                    if (btn) {
+                      if (!variant || !variant.available) {
+                        btn.disabled = true;
+                        btn.style.display = 'none';
+                      } else {
+                        btn.disabled = false;
+                        btn.style.display = '';
+                        btn.dataset.variantId = variant.id;
+                      }
+                    }
+                    if (codBtn) {
+                      if (!variant || !variant.available) {
+                        codBtn.style.display = 'none';
+                      } else {
+                        codBtn.style.display = '';
+                      }
                     }
                   });
                 }

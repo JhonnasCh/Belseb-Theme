@@ -105,33 +105,89 @@
     text-transform: var(--button-text-case-secondary);
   }
 
-  /* Buy Now / Pagar Online button on product page */
+  /* Row 1: COD Button beside quantity selector */
+  .cod-button-wrapper {
+    flex: 1 1 auto !important;
+    min-width: 0;
+    display: flex !important;
+  }
+
+  .cod-button-wrapper .cod-button,
+  .cod-button-wrapper [class*="releasit"] button,
+  .cod-button-wrapper .releasit-cod-button {
+    width: 100% !important;
+    height: var(--height-buy-buttons) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    --button-border-width: 0px !important;
+    --button-border-color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    font-family: var(--button-font-family-primary);
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    border-radius: var(--style-border-radius-buttons-primary, 0) !important;
+    text-transform: var(--button-text-case-primary, none);
+  }
+
+  .cod-button-wrapper .cod-button:hover,
+  .cod-button-wrapper [class*="releasit"] button:hover,
+  .cod-button-wrapper .releasit-cod-button:hover {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  .cod-button__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #ffffff !important;
+    stroke: currentColor !important;
+  }
+
+  /* Row 2: Buy Now / Pagar Online button */
   .buy-now-button {
     flex: 1 0 100% !important;
     width: 100% !important;
     height: var(--height-buy-buttons);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-xs);
-    background-color: #1a1a1a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    background-color: #000000 !important;
     color: #ffffff !important;
-    border: 1px solid #333333 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    --button-border-width: 0px !important;
+    --button-border-color: transparent !important;
     border-radius: var(--style-border-radius-buttons-primary, 0) !important;
     font-family: var(--button-font-family-primary);
-    font-size: var(--font-size--sm);
-    font-weight: 600;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-block-start: calc(var(--gap-sm) / 2);
     text-transform: var(--button-text-case-primary, none);
   }
 
   .buy-now-button:hover {
-    background-color: #2a2a2a !important;
+    background-color: #1a1a1a !important;
     color: #ffffff !important;
-    border-color: #444444 !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
   }
 
   .buy-now-button:active {
@@ -142,9 +198,42 @@
   .buy-now-button:disabled {
     background-color: #111111 !important;
     color: #555555 !important;
-    border-color: #222222 !important;
     cursor: not-allowed;
     opacity: 0.6;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  .buy-now-button__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #ffffff !important;
+    stroke: currentColor !important;
+  }
+
+  /* Row 3: Agregar al carrito */
+  .product-form-buttons > :has(.add-to-cart-button),
+  .product-form-buttons > span:has(add-to-cart-component),
+  .product-form-buttons > [data-shopify-editor-block*="add-to-cart"],
+  .product-form-buttons add-to-cart-component {
+    flex: 1 0 100% !important;
+    width: 100% !important;
+  }
+
+  .add-to-cart-button {
+    width: 100% !important;
+    height: var(--height-buy-buttons);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Prevent duplicate Releasit block outside buy-buttons */
+  .product-details > .group-block > .group-block-content > [id*="releasit"]:not(.cod-button-wrapper [id*="releasit"]),
+  #shopify-block-releasit_cod_form_button_app_block_6Rtdqg:not(.cod-button-wrapper *) {
+    display: none !important;
   }
 
   .product-form-text__error {
