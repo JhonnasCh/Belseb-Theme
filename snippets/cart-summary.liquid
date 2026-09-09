@@ -616,13 +616,17 @@
   .cart-drawer__dialog .cart__checkout-button--online,
   .cart__ctas .cart__checkout-button--online,
   #checkout.cart__checkout-button--online {
+    position: relative !important;
     background-color: #000000 !important;
     color: #ffffff !important;
     border: none !important;
-    display: inline-flex !important;
+    outline: none !important;
+    box-shadow: none !important;
+    --button-border-width: 0px !important;
+    --button-border-color: transparent !important;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 10px !important;
     font-weight: 700 !important;
     font-size: 1rem !important;
     letter-spacing: 0.5px !important;
@@ -636,11 +640,16 @@
   }
 
   .cart__checkout-icon {
-    width: 20px;
-    height: 20px;
+    position: absolute !important;
+    left: 27px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 20px !important;
+    height: 20px !important;
     flex-shrink: 0;
     color: #ffffff !important;
     stroke: currentColor !important;
+    pointer-events: none;
   }
 
   .cart-drawer__dialog .cart__checkout-button--online:hover,
@@ -648,6 +657,9 @@
   #checkout.cart__checkout-button--online:hover {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
   }
 
   .cart-drawer__dialog .cart__checkout-button--online:disabled,
@@ -655,6 +667,9 @@
   #checkout.cart__checkout-button--online:disabled {
     background-color: #111111 !important;
     color: #555555 !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
     cursor: not-allowed !important;
   }
 {% endstylesheet %}
