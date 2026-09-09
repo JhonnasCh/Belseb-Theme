@@ -105,10 +105,10 @@
     text-transform: var(--button-text-case-secondary);
   }
 
-  /* Row 1: COD Button beside quantity selector */
+  /* Row 1: COD Button - full width */
   .cod-button-wrapper {
-    flex: 1 1 auto !important;
-    min-width: 0;
+    flex: 1 0 100% !important;
+    width: 100% !important;
     display: flex !important;
   }
 
@@ -156,7 +156,7 @@
     stroke: currentColor !important;
   }
 
-  /* Row 2: Buy Now / Pagar Online button */
+  /* Row 2: Buy Now / Pagar Online button - full width */
   .buy-now-button {
     flex: 1 0 100% !important;
     width: 100% !important;
@@ -213,21 +213,45 @@
     stroke: currentColor !important;
   }
 
-  /* Row 3: Agregar al carrito */
-  .product-form-buttons > :has(.add-to-cart-button),
-  .product-form-buttons > span:has(add-to-cart-component),
-  .product-form-buttons > [data-shopify-editor-block*="add-to-cart"],
-  .product-form-buttons add-to-cart-component {
+  /* Row 3: Agregar al carrito with quantity on its right */
+  .add-to-cart-row {
+    display: flex !important;
     flex: 1 0 100% !important;
     width: 100% !important;
+    gap: calc(var(--gap-sm) / 2) !important;
+    align-items: center !important;
   }
 
-  .add-to-cart-button {
+  @media screen and (min-width: 750px) {
+    .add-to-cart-row {
+      gap: var(--gap-sm) !important;
+    }
+  }
+
+  .add-to-cart-row > :has(.add-to-cart-button),
+  .add-to-cart-row > span:has(add-to-cart-component),
+  .add-to-cart-row > [data-shopify-editor-block*="add-to-cart"],
+  .add-to-cart-row add-to-cart-component {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+  }
+
+  .add-to-cart-row .add-to-cart-button {
     width: 100% !important;
     height: var(--height-buy-buttons);
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+  }
+
+  .add-to-cart-row .quantity-selector-wrapper {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+
+  .add-to-cart-row .quantity-selector {
+    height: var(--height-buy-buttons) !important;
   }
 
   /* Prevent duplicate Releasit block outside buy-buttons */

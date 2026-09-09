@@ -106,8 +106,6 @@
             </div>
           {%- endif -%}
 
-          {% content_for 'block', type: 'quantity', id: 'quantity' %}
-
           {%- if has_quantity_rules -%}
             <div
               class="quantity-rules"
@@ -249,12 +247,16 @@
             </button>
           {%- endif -%}
 
-          {% content_for 'block',
-            type: 'add-to-cart',
-            id: 'add-to-cart',
-            can_add_to_cart: can_add_to_cart,
-            add_to_cart_text: add_to_cart_text
-          %}
+          <div class="add-to-cart-row">
+            {% content_for 'block',
+              type: 'add-to-cart',
+              id: 'add-to-cart',
+              can_add_to_cart: can_add_to_cart,
+              add_to_cart_text: add_to_cart_text
+            %}
+
+            {% content_for 'block', type: 'quantity', id: 'quantity' %}
+          </div>
 
           {%- if can_add_to_cart -%}
             <script>
