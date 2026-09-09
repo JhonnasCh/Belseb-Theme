@@ -224,6 +224,77 @@
             add_to_cart_text: add_to_cart_text
           %}
 
+          {%- if can_add_to_cart -%}
+            <button
+              type="button"
+              class="button buy-now-button"
+              id="buy-now-{{ section.id }}"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            >
+              <span class="buy-now-button__text">Pagar Online</span>
+            </button>
+            <script>
+              (function() {
+                if (!window.__buyNowDelegationAttached) {
+                  window.__buyNowDelegationAttached = true;
+                  document.addEventListener('click', async function(e) {
+                    var btn = e.target.closest('.buy-now-button');
+                    if (!btn || btn.disabled) return;
+                    var form = btn.closest('form');
+                    var variantInput = form ? form.querySelector('[name="id"]') : null;
+                    var quantityInput = form ? form.querySelector('[name="quantity"]') : null;
+                    var variantId = variantInput ? variantInput.value : btn.dataset.variantId;
+                    var quantity = quantityInput ? quantityInput.value : 1;
+                    if (!variantId) return;
+
+                    var textSpan = btn.querySelector('.buy-now-button__text') || btn;
+                    var originalText = textSpan.textContent;
+                    btn.disabled = true;
+                    textSpan.textContent = 'Procesando...';
+
+                    try {
+                      var res = await fetch('/cart/add.js', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                          items: [{
+                            id: parseInt(variantId),
+                            quantity: parseInt(quantity) || 1
+                          }]
+                        })
+                      });
+                      if (!res.ok) throw new Error('Error al agregar producto');
+                      window.location.href = '/checkout';
+                    } catch (err) {
+                      console.error('Error in Pagar Online:', err);
+                      btn.disabled = false;
+                      textSpan.textContent = originalText;
+                    }
+                  });
+
+                  document.addEventListener('variant:update', function(e) {
+                    var variant = e.detail && e.detail.resource;
+                    var target = (e.target && e.target.closest) ? e.target.closest('.shopify-section, dialog, product-card') : document;
+                    if (!target) target = document;
+                    var btn = target.querySelector('.buy-now-button');
+                    if (!btn) return;
+                    if (!variant || !variant.available) {
+                      btn.disabled = true;
+                      btn.style.display = 'none';
+                    } else {
+                      btn.disabled = false;
+                      btn.style.display = '';
+                      btn.dataset.variantId = variant.id;
+                    }
+                  });
+                }
+              })();
+            </script>
+          {%- endif -%}
+
           {% content_for 'block',
             type: 'accelerated-checkout',
             id: 'accelerated-checkout',
