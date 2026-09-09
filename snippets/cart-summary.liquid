@@ -261,7 +261,7 @@
   <button
     type="submit"
     id="checkout"
-    class="cart__checkout-button button"
+    class="cart__checkout-button cart__checkout-button--online button"
     name="checkout"
     {% if cart == empty %}
       disabled
@@ -269,7 +269,7 @@
     form="cart-form"
   >
     <span class="button-text">
-      {{ 'content.checkout' | t }}
+      Pagar Online
     </span>
   </button>
 
@@ -604,5 +604,28 @@
     .cart-summary--extend {
       height: 100%;
     }
+  }
+
+  /* Pagar Online button - distinct style from Pago Contraentrega */
+  .cart__checkout-button--online {
+    background-color: #ffffff !important;
+    color: #050505 !important;
+    border: 2px solid #ffffff !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+  }
+
+  .cart__checkout-button--online:hover {
+    background-color: #e8e8e8 !important;
+    color: #050505 !important;
+    border-color: #e8e8e8 !important;
+  }
+
+  .cart__checkout-button--online:disabled {
+    background-color: #555555 !important;
+    color: #999999 !important;
+    border-color: #555555 !important;
+    cursor: not-allowed;
   }
 {% endstylesheet %}
