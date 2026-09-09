@@ -1,0 +1,64 @@
+{% comment %}
+  Filtros de género personalizados por etiquetas
+{% endcomment %}
+
+<style>
+  .gender-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    padding: 0 16px;
+  }
+  .gender-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 24px;
+    border: 1px solid var(--color-foreground);
+    border-radius: 30px;
+    text-decoration: none;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.9rem;
+    color: var(--color-foreground);
+    background-color: transparent;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .gender-filter-btn:hover {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+  .gender-filter-btn.active {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    font-weight: bold;
+    pointer-events: none;
+  }
+</style>
+
+{% liquid
+  assign current_tag = current_tags | first | downcase
+  assign base_url = collection.url
+  if base_url == blank
+    assign base_url = '/collections/all'
+  endif
+%}
+
+<div class="gender-filters">
+  <a href="/collections/all" class="gender-filter-btn {% if current_tags == blank and collection.handle == 'all' %}active{% endif %}">
+    Todos los Relojes
+  </a>
+  <a href="{{ base_url }}/hombre" class="gender-filter-btn {% if current_tag == 'hombre' %}active{% endif %}">
+    Hombre
+  </a>
+  <a href="{{ base_url }}/mujer" class="gender-filter-btn {% if current_tag == 'mujer' %}active{% endif %}">
+    Mujer
+  </a>
+  <a href="{{ base_url }}/mixto" class="gender-filter-btn {% if current_tag == 'mixto' %}active{% endif %}">
+    Mixto
+  </a>
+</div>

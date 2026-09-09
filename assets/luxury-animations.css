@@ -1,0 +1,486 @@
+/* ═══════════════════════════════════════════════════════════════
+   LUXURY MINIMALIST THEME — Animation & Design System
+   Pulso Luxury Watches — Premium Watch E-commerce
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Smooth Scroll ─────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Typography System ─────────────────────────────────────── */
+.luxury-heading {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.luxury-heading--bold {
+  font-weight: 700;
+}
+
+.luxury-heading--light {
+  font-weight: 400;
+}
+
+.luxury-body {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+}
+
+.luxury-body--medium {
+  font-weight: 400;
+}
+
+.luxury-body--semibold {
+  font-weight: 600;
+}
+
+.luxury-subheading {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+}
+
+/* ─── Gold Accent Utilities ─────────────────────────────────── */
+.luxury-gold {
+  color: #C5A059;
+}
+
+.luxury-gold-border {
+  border-color: #C5A059;
+}
+
+.luxury-gold-bg {
+  background-color: #C5A059;
+}
+
+.luxury-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C5A059, transparent);
+  margin: 2rem auto;
+}
+
+.luxury-divider--left {
+  margin-left: 0;
+  background: linear-gradient(90deg, #C5A059, transparent);
+}
+
+/* ─── Ken Burns Effect ──────────────────────────────────────── */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.ken-burns-active .hero__media,
+.ken-burns-active .hero__media img {
+  animation: kenBurns 20s ease-out forwards;
+  will-change: transform;
+}
+
+/* ─── Fade Slide Up (Text Reveal) ───────────────────────────── */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 25px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.luxury-text-reveal {
+  opacity: 0;
+  transform: translate3d(0, 25px, 0);
+  will-change: opacity, transform;
+}
+
+.luxury-text-reveal--visible {
+  animation: fadeSlideUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.luxury-text-reveal--delay-1 {
+  animation-delay: 0.15s;
+}
+
+.luxury-text-reveal--delay-2 {
+  animation-delay: 0.3s;
+}
+
+.luxury-text-reveal--delay-3 {
+  animation-delay: 0.5s;
+}
+
+.luxury-text-reveal--delay-4 {
+  animation-delay: 0.7s;
+}
+
+/* ─── Scroll Reveal ─────────────────────────────────────────── */
+.luxury-reveal {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.luxury-reveal--visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal--left {
+  opacity: 0;
+  transform: translate3d(-30px, 0, 0);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.luxury-reveal--left.luxury-reveal--visible {
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal--right {
+  opacity: 0;
+  transform: translate3d(30px, 0, 0);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.luxury-reveal--right.luxury-reveal--visible {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Stagger children */
+.luxury-reveal-stagger>* {
+  opacity: 0;
+  transform: translate3d(0, 25px, 0);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(1) {
+  transition-delay: 0s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(2) {
+  transition-delay: 0.1s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(3) {
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(4) {
+  transition-delay: 0.35s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(5) {
+  transition-delay: 0.45s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.luxury-reveal-stagger.luxury-reveal--visible>*:nth-child(6) {
+  transition-delay: 0.55s;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Reduce motion for low-end devices */
+@media (prefers-reduced-motion: reduce) {
+
+  .luxury-text-reveal--visible,
+  .luxury-reveal,
+  .luxury-reveal--left,
+  .luxury-reveal--right,
+  .luxury-reveal-stagger>* {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ─── Page Transition ───────────────────────────────────────── */
+@keyframes luxuryPageFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes luxuryPageFadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.luxury-theme .content-for-layout {
+  animation: luxuryPageFadeIn 0.3s ease-out;
+}
+
+.luxury-page-transitioning .content-for-layout {
+  /* Do NOT use 'forwards' fill — it would permanently lock opacity at 0
+     if the user navigates back (bfcache restore) before the animation ends. */
+  animation: luxuryPageFadeOut 0.3s ease-out;
+}
+
+/* ─── bfcache (Back/Forward) Safety ────────────────────────── */
+/* When the browser restores the page, JS removes luxury-page-transitioning
+   via the pageshow handler. These rules ensure no animation state lingers. */
+body:not(.luxury-page-transitioning) .content-for-layout {
+  opacity: 1;
+}
+
+/* ─── Product Card Luxury Hover ─────────────────────────────── */
+.luxury-theme .resource-list__item {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.luxury-theme .product-card-gallery {
+  overflow: hidden;
+  border: none;
+}
+
+.luxury-theme .product-card-gallery img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.5s ease;
+}
+
+.luxury-theme .resource-list__item:hover .product-card-gallery img {
+  transform: scale(1.03);
+}
+
+/* Second image (hover detail) */
+.luxury-theme .product-card-gallery img:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.luxury-theme .resource-list__item:hover .product-card-gallery img:nth-child(2) {
+  opacity: 1;
+}
+
+/* Product card text styling */
+.luxury-theme .product-card .product-card__title,
+.luxury-theme .product-title-truncation {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.luxury-theme .product-card .price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+/* ─── White Space Enforcement ───────────────────────────────── */
+.luxury-spacer--sm {
+  padding: 2rem 0;
+}
+
+.luxury-spacer--md {
+  padding: 4rem 0;
+}
+
+.luxury-spacer--lg {
+  padding: 6rem 0;
+}
+
+.luxury-spacer--xl {
+  padding: 8rem 0;
+}
+
+/* ─── Luxury Button Styles ──────────────────────────────────── */
+.luxury-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  border: 1px solid #C5A059;
+  background: transparent;
+  color: #C5A059;
+  cursor: pointer;
+  transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.luxury-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #C5A059;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+  will-change: transform;
+}
+
+.luxury-btn:hover {
+  color: #050505;
+}
+
+.luxury-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.luxury-btn--white {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.luxury-btn--white::before {
+  background: #FFFFFF;
+}
+
+.luxury-btn--white:hover {
+  color: #050505;
+}
+
+/* ─── Luxury Header Overrides ───────────────────────────────── */
+.luxury-theme header {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.luxury-theme .header__menu-item {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── Luxury Footer ─────────────────────────────────────────── */
+.luxury-theme footer {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Selection Color ───────────────────────────────────────── */
+.luxury-theme ::selection {
+  background: #C5A059;
+  color: #050505;
+}
+
+.luxury-theme ::-moz-selection {
+  background: #C5A059;
+  color: #050505;
+}
+
+/* ─── Scrollbar Styling ─────────────────────────────────────── */
+.luxury-theme ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.luxury-theme ::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+.luxury-theme ::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 3px;
+}
+
+.luxury-theme ::-webkit-scrollbar-thumb:hover {
+  background: #D4B06A;
+}
+
+/* ─── Responsive adjustments ────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .luxury-spacer--lg {
+    padding: 3rem 0;
+  }
+
+  .luxury-spacer--xl {
+    padding: 4rem 0;
+  }
+
+  .luxury-btn {
+    padding: 0.85rem 2rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* ─── Luxury Mobile Menu Overrides ────────────────────────────── */
+@media screen and (max-width: 989px) {
+  .menu-drawer {
+    background-color: #050505 !important;
+    width: 50vw !important;
+  }
+
+  .menu-drawer-container .menu-drawer__menu-item,
+  .menu-drawer-container .menu-drawer__back-button,
+  .menu-drawer-container .menu-drawer__close-button,
+  .menu-drawer-container .drawer-localization__button,
+  .menu-drawer-container .menu-drawer__account,
+  .menu-drawer-container .currency-code,
+  .menu-drawer .header__icon--summary {
+    color: #FFFFFF !important;
+  }
+
+  .menu-drawer__utility-links {
+    background-color: #0a0a0a !important;
+  }
+
+  .menu-drawer .icon-caret,
+  .menu-drawer .icon-plus,
+  .menu-drawer .icon-close,
+  .menu-drawer-container .svg-wrapper svg {
+    color: #C5A059 !important;
+  }
+
+  .menu-drawer-container .menu-drawer__menu-item-text {
+    color: #FFFFFF !important;
+  }
+}

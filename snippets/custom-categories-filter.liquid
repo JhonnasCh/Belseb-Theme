@@ -1,0 +1,102 @@
+{% liquid
+  assign is_horizontal = false
+  assign is_vertical = false
+  if filter_style == 'horizontal'
+    assign is_horizontal = true
+  elsif filter_style == 'vertical'
+    assign is_vertical = true
+  endif
+
+  assign has_active = false
+  assign active_count = 0
+  for c in collections
+    if c.all_products_count > 0 and collection.handle == c.handle
+      assign has_active = true
+      assign active_count = 1
+    endif
+  endfor
+%}
+
+{% capture accordion_children %}
+  <details
+    id="Facet-Details-{{ sectionId }}-custom-categories{% if in_drawer %}-drawer{% endif %}"
+    class="facets__panel"
+    {% if filter_style == 'horizontal' and in_drawer != true %}
+      data-auto-close-details="desktop"
+    {% endif %}
+    {% if filter_style == 'vertical' or in_drawer %}
+      open
+    {% endif %}
+  >
+    <summary class="facets__summary">
+      <span class="facets__label">Categorías</span>
+      <div class="facets__status-wrapper">
+        <facet-status-component
+          class="facets__status"
+          facet-type="list"
+          data-filter-style="{{ filter_style }}"
+        >
+          <span
+            class="
+              {%- if filter_style == 'horizontal' -%}
+                {%- if active_count > 1 -%}bubble facets__bubble{%- endif -%}
+              {%- else -%}
+                {%- if active_count > 0 -%}bubble facets__bubble{%- endif -%}
+              {%- endif %}
+              hide-when-empty
+            "
+          >
+            {%- liquid
+              if filter_style == 'horizontal' and active_count == 1
+                echo collection.title
+              elsif active_count > 0
+                echo active_count
+              endif
+            -%}
+          </span>
+        </facet-status-component>
+        <span class="svg-wrapper icon-caret icon-animated">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+      </div>
+    </summary>
+    <floating-panel-component
+      {% unless filter_style == 'vertical' or in_drawer %}
+        data-close-on-resize
+      {% endunless %}
+      class="facets__inputs facets__panel-content details-content{% if filter_style == 'horizontal' and in_drawer != true %} color-{{ settings.popover_color_scheme }}{% endif %}"
+      id="facet-inputs-custom-categories{% if in_drawer %}-drawer{% endif %}"
+    >
+      <div class="facets__inputs-wrapper">
+        <ul class="facets__inputs-list list-unstyled" style="margin-top: 10px;">
+          {%- for c in collections -%}
+            {%- if c.all_products_count > 0 -%}
+              {%- assign is_active = false -%}
+              {%- if collection.handle == c.handle -%}
+                {%- assign is_active = true -%}
+              {%- endif -%}
+              <li class="facets__inputs-list-item" style="padding: 12px 0; border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.05);">
+                <a href="{{ c.url }}" style="display:flex; align-items: center; text-decoration: none; color: inherit; padding: 4px 8px; margin-left: -8px; border-radius: 4px; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='rgb(var(--color-foreground-rgb) / 0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+                  <span style="{% if is_active %}font-weight: bold; opacity: 1;{% else %}opacity: 0.7;{% endif %}">
+                    {{ c.title }}
+                  </span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </floating-panel-component>
+  </details>
+{% endcapture %}
+
+{% render 'accordion-custom-component',
+  children: accordion_children,
+  class: 'facets__item',
+  open: is_vertical,
+  open_by_default_on_desktop: is_vertical,
+  open_by_default_on_mobile: is_vertical,
+  disable_animation_on_desktop: is_horizontal,
+  close_with_escape: is_horizontal,
+  data_filter_param_name: 'custom-categories'
+%}

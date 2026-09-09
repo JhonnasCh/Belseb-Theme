@@ -1,0 +1,414 @@
+{% comment %}
+  Luxury Collections Section
+  Displays a curated collection with luxury styling.
+  Supports "Piezas de Inversión", "Relojes Deportivos", "Clásicos Atemporales"
+{% endcomment %}
+
+{%- liquid
+  assign max_products = section.settings.max_products
+  assign collection = section.settings.collection
+-%}
+
+<div
+  id="LuxuryCollections-{{ section.id }}"
+  class="luxury-collections color-{{ section.settings.color_scheme }} luxury-reveal"
+  style="
+    --lc-columns: {{ section.settings.columns }};
+    --lc-gap: {{ section.settings.gap }}px;
+  "
+>
+  <div class="luxury-collections__inner {{ section.settings.section_width }}">
+    {%- if section.settings.subheading != blank -%}
+      <p class="luxury-collections__subheading luxury-subheading luxury-gold luxury-text-reveal">
+        {{ section.settings.subheading }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="luxury-collections__heading luxury-heading luxury-text-reveal luxury-text-reveal--delay-1">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="luxury-collections__description luxury-body luxury-text-reveal luxury-text-reveal--delay-2">
+        {{ section.settings.description }}
+      </p>
+    {%- endif -%}
+
+    <div class="luxury-divider luxury-text-reveal luxury-text-reveal--delay-2"></div>
+
+    <div class="luxury-collections__grid luxury-reveal-stagger">
+      {%- if collection != blank and collection.products.size > 0 -%}
+        {%- for product in collection.products limit: max_products -%}
+          <div class="luxury-collections__card">
+            <a href="{{ product.url }}" class="luxury-collections__card-link">
+              <div class="luxury-collections__card-media">
+                {%- if product.featured_image -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 1200
+                    | image_tag:
+                      class: 'luxury-collections__card-image luxury-collections__card-image--primary',
+                      loading: 'lazy',
+                      widths: '300, 400, 600, 800, 1000, 1200',
+                      sizes: '(min-width: 750px) calc(100vw / var(--lc-columns, 3) - var(--lc-gap, 24px)), 50vw'
+                  }}
+                {%- endif -%}
+                {%- if product.images.size > 1 -%}
+                  {{
+                    product.images[1]
+                    | image_url: width: 1200
+                    | image_tag:
+                      class: 'luxury-collections__card-image luxury-collections__card-image--hover',
+                      loading: 'lazy',
+                      widths: '300, 400, 600, 800, 1000, 1200',
+                      sizes: '(min-width: 750px) calc(100vw / var(--lc-columns, 3) - var(--lc-gap, 24px)), 50vw'
+                  }}
+                {%- endif -%}
+              </div>
+              <div class="luxury-collections__card-info">
+                {%- if section.settings.show_brand and product.vendor != blank -%}
+                  <p class="luxury-collections__card-brand luxury-subheading">{{ product.vendor }}</p>
+                {%- endif -%}
+                <h3 class="luxury-collections__card-title luxury-heading">{{ product.title }}</h3>
+                <p class="luxury-collections__card-price luxury-body--medium">
+                  {{ product.price | money }}
+                </p>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..max_products) -%}
+          <div class="luxury-collections__card">
+            <div class="luxury-collections__card-link">
+              <div class="luxury-collections__card-media luxury-collections__card-placeholder">
+                {{ 'product-' | append: i | placeholder_svg_tag }}
+              </div>
+              <div class="luxury-collections__card-info">
+                {%- if section.settings.show_brand -%}
+                  <p class="luxury-collections__card-brand luxury-subheading">Marca de Lujo</p>
+                {%- endif -%}
+                <h3 class="luxury-collections__card-title luxury-heading">Reloj de Ejemplo {{ i }}</h3>
+                <p class="luxury-collections__card-price luxury-body--medium">$12,500.00</p>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="luxury-collections__cta luxury-text-reveal luxury-text-reveal--delay-3">
+        <a href="{{ section.settings.button_link | default: collection.url }}" class="luxury-btn">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .luxury-collections {
+    padding: 5rem 0;
+  }
+
+  .luxury-collections__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .luxury-collections__inner.full-width {
+    max-width: none;
+  }
+
+  .luxury-collections__subheading {
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .luxury-collections__heading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-foreground-heading);
+  }
+
+  .luxury-collections__description {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.7;
+    font-size: 0.95rem;
+  }
+
+  .luxury-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--lc-columns, 3), 1fr);
+    gap: var(--lc-gap, 24px);
+    margin-top: 3rem;
+  }
+
+  .luxury-collections__card {
+    border: none;
+    background: transparent;
+  }
+
+  .luxury-collections__card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .luxury-collections__card-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: #0A0A0A;
+  }
+
+  .luxury-collections__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.5s ease;
+  }
+
+  .luxury-collections__card-image--primary {
+    position: relative;
+    z-index: 1;
+  }
+
+  .luxury-collections__card-image--hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .luxury-collections__card:hover .luxury-collections__card-image--primary {
+    transform: scale(1.03);
+  }
+
+  .luxury-collections__card:hover .luxury-collections__card-image--hover {
+    opacity: 1;
+  }
+
+  .luxury-collections__card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+  }
+
+  .luxury-collections__card-placeholder svg {
+    max-width: 60%;
+    opacity: 0.2;
+  }
+
+  .luxury-collections__card-info {
+    padding: 1.25rem 0;
+    text-align: center;
+  }
+
+  .luxury-collections__card-brand {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: #C5A059;
+    margin-bottom: 0.375rem;
+  }
+
+  .luxury-collections__card-title {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground-heading);
+  }
+
+  .luxury-collections__card-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    color: var(--color-foreground);
+    opacity: 0.7;
+  }
+
+  .luxury-collections__cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  @media screen and (max-width: 989px) {
+    .luxury-collections__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .luxury-collections {
+      padding: 3rem 0;
+    }
+
+    .luxury-collections__inner {
+      padding: 0 1.25rem;
+    }
+
+    .luxury-collections__heading {
+      font-size: 1.75rem;
+    }
+
+    .luxury-collections__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .luxury-collections__card-title {
+      font-size: 0.9rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury Collections",
+  "tag": "section",
+  "class": "luxury-collections-wrapper section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "COLECCIÓN EXCLUSIVA"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Piezas de Inversión"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Relojes que trascienden el tiempo, seleccionados para el conocedor más exigente."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Maximum products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brand",
+      "label": "Show brand name",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explorar Colección"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Collections — Investment Pieces",
+      "category": "Products",
+      "settings": {
+        "subheading": "COLECCIÓN EXCLUSIVA",
+        "heading": "Piezas de Inversión",
+        "description": "Relojes que trascienden el tiempo, seleccionados para el conocedor más exigente.",
+        "max_products": 6,
+        "columns": 3,
+        "gap": 24,
+        "show_brand": true,
+        "button_label": "Explorar Colección",
+        "color_scheme": "scheme-1"
+      }
+    },
+    {
+      "name": "Luxury Collections — Sports de Lujo",
+      "category": "Products",
+      "settings": {
+        "subheading": "DEPORTIVOS DE LUJO",
+        "heading": "Relojes Deportivos de Lujo",
+        "description": "Rendimiento excepcional fusionado con elegancia inigualable.",
+        "max_products": 4,
+        "columns": 4,
+        "gap": 20,
+        "show_brand": true,
+        "button_label": "Ver Colección Deportiva",
+        "color_scheme": "scheme-1"
+      }
+    },
+    {
+      "name": "Luxury Collections — Timeless Classics",
+      "category": "Products",
+      "settings": {
+        "subheading": "ATEMPORALES",
+        "heading": "Clásicos Atemporales",
+        "description": "La esencia de la relojería, capturada en piezas que definen la perfección.",
+        "max_products": 6,
+        "columns": 3,
+        "gap": 24,
+        "show_brand": true,
+        "button_label": "Descubrir Clásicos",
+        "color_scheme": "scheme-1"
+      }
+    }
+  ]
+}
+{% endschema %}

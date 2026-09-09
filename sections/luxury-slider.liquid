@@ -1,0 +1,604 @@
+{% comment %}
+  Luxury Video Slider
+  A premium slider supporting video loops with lazy loading.
+  Designed for luxury watch showcases.
+{% endcomment %}
+
+<div
+  id="LuxurySlider-{{ section.id }}"
+  class="luxury-slider color-{{ section.settings.color_scheme }} luxury-reveal"
+  style="
+    --luxury-slider-height: {{ section.settings.section_height }}vh;
+    {% if section.settings.section_height_px != blank %}
+      --luxury-slider-height: {{ section.settings.section_height_px }}px;
+    {% endif %}
+  "
+  data-luxury-slider
+>
+  {%- if section.settings.subheading != blank -%}
+    <div class="luxury-slider__subheading luxury-subheading luxury-gold luxury-text-reveal">
+      {{ section.settings.subheading }}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.heading != blank -%}
+    <h2 class="luxury-slider__heading luxury-heading luxury-text-reveal luxury-text-reveal--delay-1">
+      {{ section.settings.heading }}
+    </h2>
+  {%- endif -%}
+
+  {%- if section.settings.description != blank -%}
+    <p class="luxury-slider__description luxury-body luxury-text-reveal luxury-text-reveal--delay-2">
+      {{ section.settings.description }}
+    </p>
+  {%- endif -%}
+
+  <!-- Minimalist watch mechanism SVG background -->
+  <div class="luxury-slider__bg-art" aria-hidden="true">
+    <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main clock circle -->
+      <circle cx="400" cy="400" r="250" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="400" cy="400" r="245" stroke="currentColor" stroke-width="0.4"/>
+      <circle cx="400" cy="400" r="220" stroke="currentColor" stroke-width="0.6"/>
+      <!-- Inner circles -->
+      <circle cx="400" cy="400" r="12" stroke="currentColor" stroke-width="1"/>
+      <circle cx="400" cy="400" r="4" fill="currentColor"/>
+      <!-- Hour markers -->
+      <line x1="400" y1="155" x2="400" y2="175" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="400" y1="625" x2="400" y2="645" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="155" y1="400" x2="175" y2="400" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="625" y1="400" x2="645" y2="400" stroke="currentColor" stroke-width="1.5"/>
+      <!-- Diagonal markers -->
+      <line x1="227" y1="227" x2="241" y2="241" stroke="currentColor" stroke-width="1"/>
+      <line x1="559" y1="227" x2="573" y2="241" stroke="currentColor" stroke-width="1"/>
+      <line x1="227" y1="573" x2="241" y2="559" stroke="currentColor" stroke-width="1"/>
+      <line x1="559" y1="573" x2="573" y2="559" stroke="currentColor" stroke-width="1"/>
+      <!-- Clock hands -->
+      <line x1="400" y1="400" x2="400" y2="200" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="400" y1="400" x2="540" y2="320" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="400" y1="400" x2="360" y2="280" stroke="currentColor" stroke-width="0.6" stroke-linecap="round"/>
+      <!-- Gear elements - top right -->
+      <circle cx="620" cy="200" r="60" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="620" cy="200" r="45" stroke="currentColor" stroke-width="0.5"/>
+      <circle cx="620" cy="200" r="8" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="620" cy="200" r="3" fill="currentColor"/>
+      <!-- Gear teeth hints -->
+      <line x1="620" y1="138" x2="620" y2="145" stroke="currentColor" stroke-width="0.8"/>
+      <line x1="620" y1="255" x2="620" y2="262" stroke="currentColor" stroke-width="0.8"/>
+      <line x1="558" y1="200" x2="565" y2="200" stroke="currentColor" stroke-width="0.8"/>
+      <line x1="675" y1="200" x2="682" y2="200" stroke="currentColor" stroke-width="0.8"/>
+      <!-- Gear elements - bottom left -->
+      <circle cx="200" cy="600" r="50" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="200" cy="600" r="35" stroke="currentColor" stroke-width="0.5"/>
+      <circle cx="200" cy="600" r="6" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="200" cy="600" r="2.5" fill="currentColor"/>
+      <!-- Small gear -->
+      <circle cx="260" cy="560" r="25" stroke="currentColor" stroke-width="0.6"/>
+      <circle cx="260" cy="560" r="15" stroke="currentColor" stroke-width="0.4"/>
+      <circle cx="260" cy="560" r="3" fill="currentColor"/>
+      <!-- Connecting lines -->
+      <line x1="230" y1="570" x2="245" y2="565" stroke="currentColor" stroke-width="0.5"/>
+      <!-- Decorative arcs -->
+      <path d="M 150 300 A 280 280 0 0 1 300 150" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <path d="M 500 650 A 280 280 0 0 1 650 500" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <!-- Small decorative elements -->
+      <circle cx="680" cy="400" r="3" fill="currentColor"/>
+      <circle cx="120" cy="400" r="3" fill="currentColor"/>
+      <circle cx="400" cy="680" r="3" fill="currentColor"/>
+      <circle cx="400" cy="120" r="3" fill="currentColor"/>
+      <!-- Abstract lines radiating -->
+      <line x1="650" y1="400" x2="700" y2="400" stroke="currentColor" stroke-width="0.4"/>
+      <line x1="680" y1="380" x2="720" y2="370" stroke="currentColor" stroke-width="0.3"/>
+      <line x1="680" y1="420" x2="720" y2="430" stroke="currentColor" stroke-width="0.3"/>
+      <!-- Rectangular mechanical elements -->
+      <rect x="100" y="180" width="80" height="50" rx="2" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <line x1="110" y1="195" x2="170" y2="195" stroke="currentColor" stroke-width="0.3"/>
+      <line x1="110" y1="210" x2="170" y2="210" stroke="currentColor" stroke-width="0.3"/>
+      <rect x="620" y="580" width="70" height="40" rx="2" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <line x1="630" y1="595" x2="680" y2="595" stroke="currentColor" stroke-width="0.3"/>
+    </svg>
+  </div>
+
+  <div class="luxury-slider__container" data-slides-container>
+    {% for block in section.blocks %}
+      <div
+        class="luxury-slider__slide {% if forloop.first %}luxury-slider__slide--active{% endif %}"
+        data-slide-index="{{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.video != blank -%}
+          <div class="luxury-slider__media">
+            {{
+              block.settings.video
+              | video_tag:
+                autoplay: true,
+                loop: true,
+                controls: false,
+                muted: true,
+                class: 'luxury-slider__video',
+                loading: 'lazy',
+                preload: 'none'
+            }}
+          </div>
+        {%- elsif block.settings.image != blank -%}
+          <div class="luxury-slider__media">
+            {{
+              block.settings.image
+              | image_url: width: 3840
+              | image_tag:
+                class: 'luxury-slider__image',
+                loading: 'lazy',
+                widths: '832, 1200, 1600, 1920, 2560, 3840',
+                sizes: '100vw'
+            }}
+          </div>
+        {%- else -%}
+          <div class="luxury-slider__media luxury-slider__placeholder">
+            {{ 'lifestyle-2' | placeholder_svg_tag }}
+          </div>
+        {%- endif -%}
+
+        {%- if block.settings.overlay_enabled -%}
+          <div class="luxury-slider__overlay" style="background: {{ block.settings.overlay_color }};"></div>
+        {%- endif -%}
+
+        {%- if block.settings.slide_heading != blank or block.settings.slide_text != blank -%}
+          <div class="luxury-slider__content luxury-slider__content--{{ block.settings.text_position }}">
+            {%- if block.settings.slide_heading != blank -%}
+              <h3 class="luxury-slider__slide-heading luxury-heading">{{ block.settings.slide_heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.slide_text != blank -%}
+              <p class="luxury-slider__slide-text luxury-body">{{ block.settings.slide_text }}</p>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                href="{{ block.settings.button_link }}"
+                class="luxury-btn luxury-btn--white"
+              >
+                {{ block.settings.button_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {% endfor %}
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="luxury-slider__dots" data-dots-container>
+      {% for block in section.blocks %}
+        <button
+          class="luxury-slider__dot {% if forloop.first %}luxury-slider__dot--active{% endif %}"
+          data-dot-index="{{ forloop.index0 }}"
+          aria-label="Slide {{ forloop.index }}"
+        ></button>
+      {% endfor %}
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .luxury-slider {
+    position: relative;
+    width: 100%;
+    min-height: var(--luxury-slider-height, 80vh);
+    overflow: hidden;
+    background: #050505;
+  }
+
+  /* ─── SVG Background Art ────────────────────────────────── */
+  .luxury-slider__bg-art {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    max-width: 600px;
+    z-index: 1;
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.085);
+    opacity: 0;
+    animation: luxuryBgFadeIn 2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+  }
+
+  .luxury-slider__bg-art svg {
+    width: 100%;
+    height: auto;
+  }
+
+  @keyframes luxuryBgFadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  .luxury-slider__subheading {
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 10;
+    text-align: center;
+    width: 90%;
+  }
+
+  .luxury-slider__heading {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 10;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 2.5rem;
+    white-space: normal;
+    width: 90%;
+  }
+
+  .luxury-slider__description {
+    position: absolute;
+    top: 8.5rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 10;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    max-width: 550px;
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+    padding: 0 1.5rem;
+  }
+
+  .luxury-slider__container {
+    position: relative;
+    width: 100%;
+    height: var(--luxury-slider-height, 80vh);
+  }
+
+  .luxury-slider__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity;
+  }
+
+  .luxury-slider__slide--active {
+    opacity: 1;
+  }
+
+  /* Smooth slide content animations */
+  .luxury-slider__slide .luxury-slider__content {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+    will-change: opacity, transform;
+  }
+
+  .luxury-slider__slide--active .luxury-slider__content {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .luxury-slider__slide .luxury-slider__slide-heading {
+    opacity: 0;
+    transform: translate3d(0, 15px, 0);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s,
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+  }
+
+  .luxury-slider__slide--active .luxury-slider__slide-heading {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .luxury-slider__slide .luxury-slider__slide-text {
+    opacity: 0;
+    transform: translate3d(0, 15px, 0);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.55s,
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.55s;
+  }
+
+  .luxury-slider__slide--active .luxury-slider__slide-text {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .luxury-slider__media {
+    width: 100%;
+    height: 100%;
+  }
+
+  .luxury-slider__video,
+  .luxury-slider__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .luxury-slider__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0A0A0A;
+  }
+
+  .luxury-slider__placeholder svg {
+    max-width: 65%;
+    max-height: 65%;
+    opacity: 0.8;
+  }
+
+  .luxury-slider__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .luxury-slider__content {
+    position: absolute;
+    z-index: 5;
+    max-width: 600px;
+    padding: 2rem;
+  }
+
+  .luxury-slider__content--center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .luxury-slider__slide--active .luxury-slider__content--center {
+    transform: translate(-50%, -50%);
+  }
+
+  .luxury-slider__content--bottom-left {
+    bottom: 4rem;
+    left: 4rem;
+  }
+
+  .luxury-slider__content--bottom-center {
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  .luxury-slider__slide--active .luxury-slider__content--bottom-center {
+    transform: translateX(-50%);
+  }
+
+  .luxury-slider__content--bottom-right {
+    bottom: 4rem;
+    right: 4rem;
+    text-align: right;
+  }
+
+  .luxury-slider__slide-heading {
+    color: #FFFFFF;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .luxury-slider__slide-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+
+  .luxury-slider__dots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    z-index: 10;
+  }
+
+  .luxury-slider__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .luxury-slider__dot--active {
+    background: #C5A059;
+    border-color: #C5A059;
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 749px) {
+    .luxury-slider__heading {
+      font-size: 1.5rem;
+      width: 90%;
+    }
+
+    .luxury-slider__description {
+      top: 7.5rem;
+      font-size: 0.8rem;
+      max-width: 90%;
+    }
+
+    .luxury-slider__bg-art {
+      width: 80%;
+    }
+
+    .luxury-slider__content--bottom-left {
+      bottom: 3rem;
+      left: 1.5rem;
+    }
+
+    .luxury-slider__content--bottom-right {
+      bottom: 3rem;
+      right: 1.5rem;
+    }
+
+    .luxury-slider__slide-heading {
+      font-size: 1.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury Slider",
+  "tag": "section",
+  "class": "luxury-slider-wrapper section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "HAUTE HORLOGERIE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "La Excelencia en Movimiento"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Donde la tradición artesanal se une con la innovación. Cada pieza es un tributo a siglos de maestría relojera."
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 80
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (fallback)"
+        },
+        {
+          "type": "header",
+          "content": "Overlay"
+        },
+        {
+          "type": "checkbox",
+          "id": "overlay_enabled",
+          "label": "Enable overlay",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#00000066"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "slide_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "slide_text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "bottom-left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Slider",
+      "category": "Video",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "slide_heading": "Precisión Suiza",
+            "slide_text": "Descubre piezas que trascienden generaciones.",
+            "button_label": "Explorar Colección",
+            "text_position": "bottom-left",
+            "overlay_enabled": true,
+            "overlay_color": "#00000066"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "slide_heading": "Arte Mecánico",
+            "slide_text": "Cada movimiento cuenta una historia de excelencia.",
+            "button_label": "Ver Piezas",
+            "text_position": "center",
+            "overlay_enabled": true,
+            "overlay_color": "#00000066"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
